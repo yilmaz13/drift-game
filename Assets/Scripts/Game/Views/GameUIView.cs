@@ -8,6 +8,7 @@ public class GameUIView : MonoBehaviour
     //      From Editor
     [SerializeField] private Button _backButton;
     [SerializeField] private TMP_Text _levelNameLabel;
+    [SerializeField] private TMP_Text _fpsLabel;
 
     public void Show()
     {
@@ -32,5 +33,10 @@ public class GameUIView : MonoBehaviour
     private void OnBackButtonClick()
     {
         GameEvents.ClickGotoMenu();
+    }
+
+    public void SetFPSCount(float fps)
+    {
+        _fpsLabel.text = "FPS: " + fps;
     }
 }

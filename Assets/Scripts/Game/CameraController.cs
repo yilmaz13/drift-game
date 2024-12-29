@@ -45,7 +45,20 @@ public class CameraController : MonoBehaviour
         if (!_following)
             return;
 
-        Vector3 targetPosition = _targetTransform.position + _offset;
+        var distanceX = _targetTransform.position.x - transform.position.x;
+        var deltaX = 0.0f;
+
+        if (distanceX > 1.5f)
+        {
+            deltaX = distanceX - 1.5f;
+        }
+        if (distanceX < -1.5f && distanceX < 0)
+        {
+            deltaX = distanceX + 1.5f;
+        }
+        Vector3 targetPosition = new Vector3(transform.position.x + deltaX, _targetTransform.position.y, _targetTransform.position.z) + _offset;
+        
+
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _currentVelocity, _smoothTime);
     }
 

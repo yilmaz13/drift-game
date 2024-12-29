@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 152e52b7861f78e4c8c8c9f661cf4b31, type: 3}
   m_Name: GameResources
   m_EditorClassIdentifier: 
-  _followCameraSmootTime: 0
+  _followCameraSmootTime: 0.2
+  _playerCar: {fileID: 100762354367480701, guid: 76a118927ada17b45a59f2c554703aa6, type: 3}
+  _aiCar: {fileID: 6580828548964836171, guid: 7a314aadb9b739d4281f39728f32e488, type: 3}
+  _roadController: {fileID: 5682986640337728834, guid: 02e13cdb64d78a04baaec4073f36bbc1, type: 3}

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DriftGameController : IDriftGameViewListener
@@ -9,9 +10,12 @@ public class DriftGameController : IDriftGameViewListener
     private GameUIView _gameUIView;
     private IDriftGameListener _listener;
     private GameResources _gameResources;
+    private RoadController _roadController;
 
     private Camera _camera;
 
+    private PlayerCarController _playerCarController;
+    private List<NPCCarController> _npcCarControllers;
     public DriftGameView View => _view;
     #endregion
 
@@ -19,6 +23,7 @@ public class DriftGameController : IDriftGameViewListener
     public DriftGameController()
     {
         _data = new DriftGameData();
+        _npcCarControllers = new List<NPCCarController>();
     }
 
     public void Initialize(DriftGameView view, GameUIView gameUIView, IDriftGameListener listener, GameResources gameResources, Camera camera)
@@ -30,10 +35,21 @@ public class DriftGameController : IDriftGameViewListener
         _view = view;
     
         SubscribeEvents();
+        InstantiateRoadController();
     }
 
     #region Private Methods      
 
+    private void InstantiateRoadController()
+    {
+        if (_roadController == null)
+        {
+            GameObject roadObj = GameObject.Instantiate(_gameResources.RoadController, _view.ViewTransform);
+            _roadController = roadObj.GetComponent<RoadController>();
+        }
+        
+        _roadController.Initialize();
+    }
     private void SubscribeEvents()
     {      
     }
@@ -48,12 +64,34 @@ public class DriftGameController : IDriftGameViewListener
     {
         _data.Load();
         _view.Create();
+      
+        _playerCarController = GameObject.Instantiate(_gameResources.PlayerCar, _view.transform).GetComponent<PlayerCarController>();
+        _playerCarController.Initialize();
+        _roadController.Initialize();
+
+        for (int i = 0; i < 50; i++)
+        {
+            NPCCarController nPCCarController = GameObject.Instantiate(_gameResources.AiCar, _view.transform).GetComponent<NPCCarController>();
+            nPCCarController.transform.localPosition = new Vector3(Random.Range(-2,2), 0, (i + 1)*50);
+            _npcCarControllers.Add(nPCCarController);
+        }
+       
+        GameEvents.SpawnedPlayer(_playerCarController.transform);
     }
 
     public void Unload()
     {
         _data.Unload();
-        _view.Clear();      
+        _view.Clear();
+
+        for(int i = 0; i < _npcCarControllers.Count; i++)
+        {
+            GameObject.Destroy(_npcCarControllers[i].gameObject, 0.1f);
+        }
+
+        _npcCarControllers.Clear();
+        _roadController.Unload();
+        GameObject.Destroy(_playerCarController.gameObject);
     }
     
     public void OnDestory()
