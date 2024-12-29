@@ -3,17 +3,15 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game
 {
-    public abstract class ABaseCarController : MonoBehaviour
+    public abstract class BaseCarController : MonoBehaviour
     {
         #region Fields
-       
+        // Ortak alanlar
         [SerializeField] protected GameObject partsAllCar;
+        [SerializeField] protected GameObject partsOtherWheels;
         [SerializeField] protected GameObject[] wheels;
         [SerializeField] protected GameObject[] rims;
-
         [SerializeField] protected Material rutsMaterial;
-        [SerializeField] protected BoxCollider boxCollider;
-        [SerializeField] protected GameObject partsOtherWheels;
 
         protected float speed = 20f;
         protected Tween[] rotationWheelTweens;
@@ -25,7 +23,7 @@ namespace Assets.Scripts.Game
             rotationWheelTweens = new Tween[4];
             SetAllWheelsRotationTween(1f / 20f);
         }
-        
+       
         #endregion
 
         #region Private Methods

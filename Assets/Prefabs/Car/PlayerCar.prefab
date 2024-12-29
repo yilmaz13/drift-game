@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partsAllCar: {fileID: 7625482081847886945}
+  partsOtherWheels: {fileID: 4393056585937386131}
   wheels:
   - {fileID: 9078889140609964626}
   - {fileID: 1286869996119776978}
@@ -60,8 +61,7 @@ MonoBehaviour:
   - {fileID: 2440835067055466300}
   - {fileID: 4316801610619514231}
   rutsMaterial: {fileID: 2100000, guid: 20de9dcff004a9144b58234cd9a6b502, type: 2}
-  boxCollider: {fileID: 4537993592012457295}
-  partsOtherWheels: {fileID: 4393056585937386131}
+  _carParametersSO: {fileID: 11400000, guid: 726fb29237575a849b9c29d4e740125a, type: 2}
   _detectionColliderLetf: {fileID: 5981837540919228880}
   _detectionColliderRight: {fileID: 3314452593270013085}
   _detectionColliderBody: {fileID: 1225489625455043781}
@@ -70,7 +70,6 @@ MonoBehaviour:
   - {fileID: 3924731192193422137}
   _trailRendererLeft: {fileID: 5817345303098817854}
   _trailRendererRight: {fileID: 7265975621029408611}
-  driftAngle: 30
 --- !u!54 &8914784560631190834
 Rigidbody:
   m_ObjectHideFlags: 0

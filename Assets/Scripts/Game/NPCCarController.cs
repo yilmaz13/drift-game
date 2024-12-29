@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game
 {
-    public class NPCCarController : ABaseCarController, IPoolable
+    public class NPCCarController : BaseCarController, IPoolable
     {
-        public GameObject partsOtherWheels;
         public GameObject partsSteeringWheel;  
         public Transform[] rutTransforms;
 
