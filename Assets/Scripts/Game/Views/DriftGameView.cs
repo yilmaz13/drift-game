@@ -13,6 +13,7 @@ public class DriftGameView : MonoBehaviour
     #region Public Members
     public string CurrentState { get; set; }
     public string TransitionState { get; set; }
+    public Transform ViewTransform => transform;
 
     #endregion
 

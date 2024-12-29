@@ -14,6 +14,7 @@ public class GamePlayGameState : AStateBase,
     private GameUIView _gameUIView;
     private DriftGameView _driftGameView;
     private DriftGameController _driftGameController;
+    private RoadController _roadController;
     private CameraController _cameraController;
 
     private GameResources _gameResources;
@@ -41,13 +42,13 @@ public class GamePlayGameState : AStateBase,
     {
         Debug.Log("<color=green>GameplayGame State</color> OnActive");
 
+        InitializeCamera();
         InitializeDriftGame();
 
         _driftGameView.Show();
-
-        SubscribeEvents();
-        InitializeCamera();
+        SubscribeEvents();       
         PlayLevel();
+        Application.targetFrameRate = 60;
     }
 
     public override void Deactivate()
@@ -59,7 +60,9 @@ public class GamePlayGameState : AStateBase,
 
     public override void UpdateState()
     {
-    }
+        int fps = (int)(1f / Time.unscaledDeltaTime);
+        _gameUIView.SetFPSCount(fps);
+    }   
 
     #endregion
 
@@ -72,7 +75,7 @@ public class GamePlayGameState : AStateBase,
         {
             InstantiateGameUI();
             InstantiateDriftGameView();
-            InstantiateDriftController();
+            InstantiateDriftController();          
         }
     }
     private void InstantiateGameUI()
@@ -118,7 +121,9 @@ public class GamePlayGameState : AStateBase,
     {
         GameEvents.OnStartGame += StartGameListener;
         GameEvents.OnEndGame += EndGameListener;
+        GameEvents.OnClickLevelNext += PlayNextLevel;
         GameEvents.OnClickGotoMenu += GotoMenu;
+        GameEvents.OnClickLevelRestart += RestartLevel;
 
         GameEvents.OnSpawnedPlayer += FollowCameraPlayer;       
     }
@@ -140,11 +145,23 @@ public class GamePlayGameState : AStateBase,
         _gameUIView.Hide();
 
         _driftGameController.Unload();
+        PopupManager.Instance.HideAllPopups();
     }
     private void GotoMenu()
     {
         ClearScene();
         _stateManager.ChangeTransitionState(StateNames.Loading, StateNames.MainMenu);
+    }
+
+    private void RestartLevel()
+    {
+        ClearScene();
+        PlayLevel();
+    }
+    private void PlayNextLevel()
+    {
+        ClearScene();
+        PlayLevel();
     }
 
     private void EndGameListener(bool success)
@@ -157,10 +174,12 @@ public class GamePlayGameState : AStateBase,
         if (success)
         {
             //LevelSuccess           
+            PopupManager.Instance.ShowPopup(PopupNames.LevelSuccessPopup);
         }
         else
         {
-            //LevelFail           
+            //LevelFail
+            PopupManager.Instance.ShowPopup(PopupNames.LevelFailedPopup);
         }
     }
 
