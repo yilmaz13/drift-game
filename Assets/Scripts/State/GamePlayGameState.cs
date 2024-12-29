@@ -121,7 +121,9 @@ public class GamePlayGameState : AStateBase,
     {
         GameEvents.OnStartGame += StartGameListener;
         GameEvents.OnEndGame += EndGameListener;
+        GameEvents.OnClickLevelNext += PlayNextLevel;
         GameEvents.OnClickGotoMenu += GotoMenu;
+        GameEvents.OnClickLevelRestart += RestartLevel;
 
         GameEvents.OnSpawnedPlayer += FollowCameraPlayer;       
     }
@@ -143,11 +145,23 @@ public class GamePlayGameState : AStateBase,
         _gameUIView.Hide();
 
         _driftGameController.Unload();
+        PopupManager.Instance.HideAllPopups();
     }
     private void GotoMenu()
     {
         ClearScene();
         _stateManager.ChangeTransitionState(StateNames.Loading, StateNames.MainMenu);
+    }
+
+    private void RestartLevel()
+    {
+        ClearScene();
+        PlayLevel();
+    }
+    private void PlayNextLevel()
+    {
+        ClearScene();
+        PlayLevel();
     }
 
     private void EndGameListener(bool success)
@@ -160,10 +174,12 @@ public class GamePlayGameState : AStateBase,
         if (success)
         {
             //LevelSuccess           
+            PopupManager.Instance.ShowPopup(PopupNames.LevelSuccessPopup);
         }
         else
         {
-            //LevelFail           
+            //LevelFail
+            PopupManager.Instance.ShowPopup(PopupNames.LevelFailedPopup);
         }
     }
 

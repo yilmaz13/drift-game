@@ -187,6 +187,8 @@ public class PlayerCarController : MonoBehaviour
         isStart = false;
 
         gameObject.SetActive(false);
+
+        GameEvents.EndGame(false);  
         return;
     }
 

@@ -12,6 +12,7 @@ public class RoadController : MonoBehaviour
     private float spawnZ = 0f;
 
     private Transform _roadParent;
+    private SpawnManager _spawnManager;
     public  float SegmentLength => segmentLength;   
 
     void Update()
@@ -27,14 +28,16 @@ public class RoadController : MonoBehaviour
             RemoveOldSegment();
         }
     }
+   // public void Initialize(SpawnManager spawnManager)
     public void Initialize()
     {
         _roadParent = transform;
+        _spawnManager = SpawnManager.Instance;
+
         for (int i = 0; i < initialSegments; i++)
         {
             SpawnSegment();
-        }
-
+        }       
         SubscribeEvents();
     }
     public void SetPlayerTransform(Transform playerTransform)
@@ -50,8 +53,10 @@ public class RoadController : MonoBehaviour
     }
     private void SpawnSegment()
     {
-        GameObject segment = Instantiate(roadSegmentPrefab, _roadParent);
-        
+        //GameObject segment = Instantiate(roadSegmentPrefab, _roadParent);
+        GameObject segment = _spawnManager.GetGameObject("Road");
+
+        segment.transform.SetParent(transform);
         segment.transform.position = Vector3.forward * spawnZ;
         roadSegments.Enqueue(segment);
         spawnZ += segmentLength;
@@ -61,14 +66,14 @@ public class RoadController : MonoBehaviour
     private void RemoveOldSegment()
     {
         GameObject oldSegment = roadSegments.Dequeue();
-        Destroy(oldSegment);
+        oldSegment.GetComponent<PoolObject>().GoToPool();
     }  
     
     private void RemoveAllSegment()
     {
         for (int i = roadSegments.Count; i > 0; i--)
         {
-            Destroy(roadSegments.Dequeue(), 0.1f);
+           roadSegments.Dequeue().GetComponent<PoolObject>().GoToPool();
         }
     }
 

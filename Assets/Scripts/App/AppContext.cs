@@ -25,6 +25,9 @@ public class AppContext : MonoBehaviour
         _stateManager.AddStates(new MenuGameState(_stateManager, _userDataManager,_sceneReferences, _resourceReferences));
 
         _stateManager.ChangeState(StateNames.Game);
+
+        _sceneReferences.PopupManager.Initialize();
+
     }
 
     void Update()

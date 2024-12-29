@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2410113010252270992}
   - component: {fileID: 8914784560631190834}
   - component: {fileID: 4537993592012457295}
+  - component: {fileID: -2355460770581695564}
   m_Layer: 0
   m_Name: PlayerCar
   m_TagString: Untagged
@@ -69,9 +70,6 @@ MonoBehaviour:
   - {fileID: 3924731192193422137}
   trailRendererLeft: {fileID: 5817345303098817854}
   trailRendererRight: {fileID: 7265975621029408611}
-  speed: 20
-  turnSpeed: 50
-  isStart: 0
   driftAngle: 30
 --- !u!54 &8914784560631190834
 Rigidbody:
@@ -121,6 +119,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 2}
   m_Center: {x: 0, y: 0.53, z: 0}
+--- !u!114 &-2355460770581695564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100762354367480701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b04e27be883884bb95d37f1ee66d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolAfterDelay: 0
+  delay: 0
 --- !u!1 &329204545693570367
 GameObject:
   m_ObjectHideFlags: 0

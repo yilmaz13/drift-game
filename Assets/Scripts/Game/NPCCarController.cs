@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPCCarController : MonoBehaviour
+public class NPCCarController : MonoBehaviour, IPoolable
 {
     public GameObject partsOtherWheels;
     public GameObject partsSteeringWheel;
@@ -19,14 +19,14 @@ public class NPCCarController : MonoBehaviour
     {
 
     }
-    void Start()
+
+    public void OnPoolSpawn()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnReturnPool()
     {
         
-    }
+    }   
 }
