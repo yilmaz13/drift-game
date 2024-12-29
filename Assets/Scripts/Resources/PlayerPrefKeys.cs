@@ -1,4 +1,7 @@
-public static class PlayerPrefKeys
+namespace Assets.Scripts.Resources
 {
-    public static readonly string CURRENTLEVEL = "currentLevel";   
+    public static class PlayerPrefKeys
+    {
+        public static readonly string CURRENTLEVEL = "currentLevel";
+    }
 }

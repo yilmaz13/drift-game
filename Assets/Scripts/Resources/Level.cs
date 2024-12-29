@@ -1,14 +1,17 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Level", menuName = "ScriptableObjects/Level", order = 0)]
-
-public class Level : ScriptableObject
+namespace Assets.Scripts.Resources
 {
-    [SerializeField] public int Id => id;
+    [CreateAssetMenu(fileName = "Level", menuName = "ScriptableObjects/Level", order = 0)]
 
-    [SerializeField] private int id;          
-    public void CopyLevel(Level level, Level level2)
+    public class Level : ScriptableObject
     {
-        level.id = level2.Id;             
+        [SerializeField] public int Id => id;
+
+        [SerializeField] private int id;
+        public void CopyLevel(Level level, Level level2)
+        {
+            level.id = level2.Id;
+        }
     }
 }

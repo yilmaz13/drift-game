@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace PoolSystem
+namespace Assets.Scripts.PoolSystem
 {
     public sealed class ObjectPooler : MonoBehaviour
     {
@@ -39,7 +39,7 @@ namespace PoolSystem
         {
             try
             {
-                _objectPool = Resources.Load<PoolPack>("ScriptableObjects/Pool/ObjectPool");
+                _objectPool = UnityEngine.Resources.Load<PoolPack>("ScriptableObjects/Pool/ObjectPool");
                 List<Pool> pools = _objectPool.pools;
                 foreach (Pool pool in pools)
                 {

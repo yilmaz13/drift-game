@@ -1,10 +1,13 @@
-public interface IStateManager
+namespace Assets.Scripts.State
 {
-    //  MEMBERS
-    string CurrentState { get; }
+    public interface IStateManager
+    {
+        //  MEMBERS
+        string CurrentState { get; }
 
-    //  METHODS
-    void AddStates(AStateBase stateHandler);
-    void ChangeState(string state);
-    void ChangeTransitionState(string state, string targetState);
+        //  METHODS
+        void AddStates(AStateBase stateHandler);
+        void ChangeState(string state);
+        void ChangeTransitionState(string state, string targetState);
+    }
 }

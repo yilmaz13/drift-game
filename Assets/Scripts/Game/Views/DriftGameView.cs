@@ -1,3 +1,4 @@
+using Assets.Scripts.Resources;
 using UnityEngine;
 
 public class DriftGameView : MonoBehaviour

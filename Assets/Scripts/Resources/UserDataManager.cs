@@ -1,34 +1,37 @@
 using UnityEngine;
 
-public class UserDataManager : IUserDataManager
+namespace Assets.Scripts.Resources
 {
-    public UserDataManager()
+    public class UserDataManager : IUserDataManager
     {
-        if (!UserLevelExist())
+        public UserDataManager()
         {
-            SetCurrentLevel(0);          
+            if (!UserLevelExist())
+            {
+                SetCurrentLevel(0);
+            }
         }
+        public int CurrentLevel()
+        {
+            return PlayerPrefs.GetInt(PlayerPrefKeys.CURRENTLEVEL);
+        }
+
+        public void SetNextLevel()
+        {
+            var level = (CurrentLevel() + 1);
+
+            PlayerPrefs.SetInt(PlayerPrefKeys.CURRENTLEVEL, level);
+
+        }
+        public void SetCurrentLevel(int level)
+        {
+            PlayerPrefs.SetInt(PlayerPrefKeys.CURRENTLEVEL, level);
+        }
+
+        public bool UserLevelExist()
+        {
+            return PlayerPrefs.HasKey(PlayerPrefKeys.CURRENTLEVEL);
+        }
+
     }
-    public int CurrentLevel()
-    {
-        return PlayerPrefs.GetInt(PlayerPrefKeys.CURRENTLEVEL);
-    }
-
-    public void SetNextLevel()
-    {
-        var level = (CurrentLevel() + 1);
-
-        PlayerPrefs.SetInt(PlayerPrefKeys.CURRENTLEVEL, level);
-
-    }
-    public void SetCurrentLevel(int level)
-    {
-        PlayerPrefs.SetInt(PlayerPrefKeys.CURRENTLEVEL, level);
-    }   
-
-    public bool UserLevelExist()
-    {
-        return PlayerPrefs.HasKey(PlayerPrefKeys.CURRENTLEVEL);
-    }
-
 }

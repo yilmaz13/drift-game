@@ -1,56 +1,60 @@
+using Assets.Scripts.Resources;
 using UnityEngine;
 
-public class MenuGameState : AStateBase
+namespace Assets.Scripts.State
 {
-    IStateManager _stateManager;
-    IUserDataManager _userDataManager;
-    SceneReferences _sceneReferences;
-    ResourceReferences _resourceReferences;
-    private MainMenuView _mainMenuView;
-
-    public MenuGameState(IStateManager stateManager,
-                         IUserDataManager userDataManager,
-                         SceneReferences sceneReferences,
-                         ResourceReferences resourceReferences) : base(StateNames.MainMenu)
+    public class MenuGameState : AStateBase
     {
-        _stateManager = stateManager;
-        _userDataManager = userDataManager;
-        _sceneReferences = sceneReferences;
-        _resourceReferences = resourceReferences;
-    }
+        IStateManager _stateManager;
+        IUserDataManager _userDataManager;
+        SceneReferences _sceneReferences;
+        ResourceReferences _resourceReferences;
+        private MainMenuView _mainMenuView;
 
-    public override void Activate()
-    {
-        Debug.Log("<color=green>MenuGame State</color> OnActive");
-
-        if (_mainMenuView == null)
+        public MenuGameState(IStateManager stateManager,
+                             IUserDataManager userDataManager,
+                             SceneReferences sceneReferences,
+                             ResourceReferences resourceReferences) : base(StateNames.MainMenu)
         {
-            var _mainMenuViewObject = GameObject.Instantiate(_resourceReferences.MainMenuUIPrefab, _sceneReferences.UIViewContainer.transform);
-            _mainMenuView = _mainMenuViewObject.transform.GetComponent<MainMenuView>();
+            _stateManager = stateManager;
+            _userDataManager = userDataManager;
+            _sceneReferences = sceneReferences;
+            _resourceReferences = resourceReferences;
         }
 
-        var level = _userDataManager.CurrentLevel();
+        public override void Activate()
+        {
+            Debug.Log("<color=green>MenuGame State</color> OnActive");
 
-        _mainMenuView.Show();
-        _mainMenuView.DisplayLevelText(level);
+            if (_mainMenuView == null)
+            {
+                var _mainMenuViewObject = GameObject.Instantiate(_resourceReferences.MainMenuUIPrefab, _sceneReferences.UIViewContainer.transform);
+                _mainMenuView = _mainMenuViewObject.transform.GetComponent<MainMenuView>();
+            }
 
-        GameEvents.OnClickGotoGameScene += OnClickGotoGameListener;
-    }
+            var level = _userDataManager.CurrentLevel();
 
-    public override void Deactivate()
-    {
-        Debug.Log("<color=red>MenuGame State</color> OnDeactive");
+            _mainMenuView.Show();
+            _mainMenuView.DisplayLevelText(level);
 
-        _mainMenuView.Hide();
-        GameEvents.OnClickGotoGameScene -= OnClickGotoGameListener;
-    }
+            GameEvents.OnClickGotoGameScene += OnClickGotoGameListener;
+        }
 
-    public override void UpdateState()
-    {
-    }
+        public override void Deactivate()
+        {
+            Debug.Log("<color=red>MenuGame State</color> OnDeactive");
 
-    public void OnClickGotoGameListener()
-    {
-        _stateManager.ChangeTransitionState(StateNames.Loading, StateNames.Game);
+            _mainMenuView.Hide();
+            GameEvents.OnClickGotoGameScene -= OnClickGotoGameListener;
+        }
+
+        public override void UpdateState()
+        {
+        }
+
+        public void OnClickGotoGameListener()
+        {
+            _stateManager.ChangeTransitionState(StateNames.Loading, StateNames.Game);
+        }
     }
 }

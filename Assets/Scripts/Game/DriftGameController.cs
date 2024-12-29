@@ -1,6 +1,7 @@
+using Assets.Scripts.PoolSystem;
+using Assets.Scripts.Resources;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class DriftGameController : IDriftGameViewListener
 {
@@ -72,16 +73,7 @@ public class DriftGameController : IDriftGameViewListener
         _playerCarController.Initialize();
         _roadController.Initialize();
 
-        for (int i = 0; i < 50; i++)
-        {
-            //   NPCCarController nPCCarController = GameObject.Instantiate(_gameResources.AiCar, _view.transform).GetComponent<NPCCarController>();
-            NPCCarController nPCCarController = _spawnManager.GetGameObject("AI Car").GetComponent<NPCCarController>();
-            nPCCarController.transform.SetParent(_view.transform);
-
-            nPCCarController.transform.localPosition = new Vector3(Random.Range(-2,2), 0, (i + 1)*50);
-            _npcCarControllers.Add(nPCCarController);
-        }
-       
+        SpawnAiCars();
         GameEvents.SpawnedPlayer(_playerCarController.transform);
     }
 
@@ -105,5 +97,18 @@ public class DriftGameController : IDriftGameViewListener
         UnsubscribeEvents();
     }
 
+    private void SpawnAiCars()
+    {
+        for (int i = 0; i < 50; i++)
+        {
+            //   NPCCarController nPCCarController = GameObject.Instantiate(_gameResources.AiCar, _view.transform).GetComponent<NPCCarController>();
+            //TODO make "AI Car" const
+            NPCCarController nPCCarController = _spawnManager.GetGameObject("AI Car").GetComponent<NPCCarController>();
+            nPCCarController.transform.SetParent(_view.transform);
+
+            nPCCarController.transform.localPosition = new Vector3(Random.Range(-2, 2), 0, (i + 1) * 50);
+            _npcCarControllers.Add(nPCCarController);
+        }
+    }
     #endregion
 }

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Game
+namespace Assets.Scripts.Popup
 {
     public class SuccesedPopupView : PopupView
     {

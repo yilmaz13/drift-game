@@ -1,58 +1,62 @@
 using DG.Tweening;
 using UnityEngine;
+using Assets.Scripts.Resources;
 
-public class LoadingState : AStateBase
+namespace Assets.Scripts.State
 {
-    private string _transitionState = StateNames.MainMenu;
-
-    IStateManager _stateManager;
-    SceneReferences _sceneReferences;
-    ResourceReferences _resourceReferences;
-
-    private LoadingUIView _loadingUIView;
-
-    public LoadingState(IStateManager stateManager,
-                        SceneReferences sceneReferences,
-                        ResourceReferences resourceReferences) : base(StateNames.Loading)
+    public class LoadingState : AStateBase
     {
-        _stateManager = stateManager;
-        _sceneReferences = sceneReferences;
-        _resourceReferences = resourceReferences;
-    }
+        private string _transitionState = StateNames.MainMenu;
 
-    public override void Activate()
-    {
-        Debug.Log("<color=green>Loading State</color> OnActive");
+        IStateManager _stateManager;
+        SceneReferences _sceneReferences;
+        ResourceReferences _resourceReferences;
 
-        if (_loadingUIView == null)
+        private LoadingUIView _loadingUIView;
+
+        public LoadingState(IStateManager stateManager,
+                            SceneReferences sceneReferences,
+                            ResourceReferences resourceReferences) : base(StateNames.Loading)
         {
-            var _loadingUIViewObject = GameObject.Instantiate(_resourceReferences.LoadingUIView, _sceneReferences.UIViewContainer.transform);
-            _loadingUIView = _loadingUIViewObject.GetComponent<LoadingUIView>();
+            _stateManager = stateManager;
+            _sceneReferences = sceneReferences;
+            _resourceReferences = resourceReferences;
         }
 
-        _loadingUIView.Show();
+        public override void Activate()
+        {
+            Debug.Log("<color=green>Loading State</color> OnActive");
 
-        DOVirtual.DelayedCall(2, LoadingGame);
-        _loadingUIView.SetLoadingSlider(1);
-    }
+            if (_loadingUIView == null)
+            {
+                var _loadingUIViewObject = GameObject.Instantiate(_resourceReferences.LoadingUIView, _sceneReferences.UIViewContainer.transform);
+                _loadingUIView = _loadingUIViewObject.GetComponent<LoadingUIView>();
+            }
 
-    public override void Deactivate()
-    {
-        Debug.Log("<color=red>Loading State</color> Ondeactive");
-    }
+            _loadingUIView.Show();
 
-    public override void UpdateState()
-    {
-    }
+            DOVirtual.DelayedCall(2, LoadingGame);
+            _loadingUIView.SetLoadingSlider(1);
+        }
 
-    public void SetTransitionState(string transitionState)
-    {
-        _transitionState = transitionState;
-    } 
+        public override void Deactivate()
+        {
+            Debug.Log("<color=red>Loading State</color> Ondeactive");
+        }
 
-    private void LoadingGame()
-    {
-        _loadingUIView.Close();
-        _stateManager.ChangeState(_transitionState);
+        public override void UpdateState()
+        {
+        }
+
+        public void SetTransitionState(string transitionState)
+        {
+            _transitionState = transitionState;
+        }
+
+        private void LoadingGame()
+        {
+            _loadingUIView.Close();
+            _stateManager.ChangeState(_transitionState);
+        }
     }
 }

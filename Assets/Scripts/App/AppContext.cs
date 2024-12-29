@@ -1,4 +1,6 @@
 using UnityEngine;
+using Assets.Scripts.State;
+using Assets.Scripts.Resources;
 
 public class AppContext : MonoBehaviour
 {

@@ -1,6 +1,9 @@
-public interface IUserDataManager
+namespace Assets.Scripts.Resources
 {
-    int CurrentLevel();    
-    void SetNextLevel();
-    void SetCurrentLevel(int level);   
+    public interface IUserDataManager
+    {
+        int CurrentLevel();
+        void SetNextLevel();
+        void SetCurrentLevel(int level);
+    }
 }

@@ -1,14 +1,17 @@
-public abstract class AStateBase
+namespace Assets.Scripts.State
 {
-    public readonly string name;
-
-    //  CONSTRUCTORS
-    public AStateBase(string name)
+    public abstract class AStateBase
     {
-        this.name = name;
-    }
+        public readonly string name;
 
-    public abstract void Activate();
-    public abstract void Deactivate();
-    public abstract void UpdateState();
+        //  CONSTRUCTORS
+        public AStateBase(string name)
+        {
+            this.name = name;
+        }
+
+        public abstract void Activate();
+        public abstract void Deactivate();
+        public abstract void UpdateState();
+    }
 }

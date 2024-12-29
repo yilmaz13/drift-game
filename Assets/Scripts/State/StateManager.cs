@@ -1,75 +1,78 @@
 using System.Collections.Generic;
 
-public class StateManager : IStateManager
+namespace Assets.Scripts.State
 {
-    #region Public Members
-    //  MEMBERS
-    public string CurrentState { get; private set; }
-    public string TransitionState { get; private set; }
-
-    #endregion
-
-    #region Private Members    
-
-    private Dictionary<string, AStateBase> _gameStates;
-
-    #endregion
-
-    //  CONSTRUCTION
-    public StateManager()
+    public class StateManager : IStateManager
     {
-        CurrentState = "";
-        TransitionState = "";
-        _gameStates = new Dictionary<string, AStateBase>();
-    }
+        #region Public Members
+        //  MEMBERS
+        public string CurrentState { get; private set; }
+        public string TransitionState { get; private set; }
 
-    #region Public Methos
-   
-    public void AddStates(AStateBase stateHandler)
-    {
-        _gameStates.Add(stateHandler.name, stateHandler);
-    }
+        #endregion
 
-    public void ChangeState(string state)
-    {
-        if (string.IsNullOrEmpty(CurrentState) == false)
+        #region Private Members    
+
+        private Dictionary<string, AStateBase> _gameStates;
+
+        #endregion
+
+        //  CONSTRUCTION
+        public StateManager()
         {
-            _gameStates[CurrentState].Deactivate();
+            CurrentState = "";
+            TransitionState = "";
+            _gameStates = new Dictionary<string, AStateBase>();
         }
 
-        string prevState = CurrentState;
-        CurrentState = state;
+        #region Public Methos
 
-        if (string.IsNullOrEmpty(CurrentState) == false)
+        public void AddStates(AStateBase stateHandler)
         {
-            _gameStates[CurrentState].Activate();
-        }
-    }
-
-    public AStateBase GetCurrentState()
-    {
-        return _gameStates[CurrentState];
-    }
-
-    public void ChangeTransitionState(string state, string targetState)
-    {
-        if (string.IsNullOrEmpty(CurrentState) == false)
-        {
-            _gameStates[CurrentState].Deactivate();
+            _gameStates.Add(stateHandler.name, stateHandler);
         }
 
-        string prevState = CurrentState;
-        CurrentState = state;
-
-        //TODO
-        LoadingState _loadingState = (LoadingState)_gameStates[StateNames.Loading];
-        _loadingState.SetTransitionState(targetState);
-
-        if (string.IsNullOrEmpty(CurrentState) == false)
+        public void ChangeState(string state)
         {
-            _gameStates[CurrentState].Activate();
-        }
-    }
+            if (string.IsNullOrEmpty(CurrentState) == false)
+            {
+                _gameStates[CurrentState].Deactivate();
+            }
 
-    #endregion
+            string prevState = CurrentState;
+            CurrentState = state;
+
+            if (string.IsNullOrEmpty(CurrentState) == false)
+            {
+                _gameStates[CurrentState].Activate();
+            }
+        }
+
+        public AStateBase GetCurrentState()
+        {
+            return _gameStates[CurrentState];
+        }
+
+        public void ChangeTransitionState(string state, string targetState)
+        {
+            if (string.IsNullOrEmpty(CurrentState) == false)
+            {
+                _gameStates[CurrentState].Deactivate();
+            }
+
+            string prevState = CurrentState;
+            CurrentState = state;
+
+            //TODO
+            LoadingState _loadingState = (LoadingState)_gameStates[StateNames.Loading];
+            _loadingState.SetTransitionState(targetState);
+
+            if (string.IsNullOrEmpty(CurrentState) == false)
+            {
+                _gameStates[CurrentState].Activate();
+            }
+        }
+
+        #endregion
+    }
 }

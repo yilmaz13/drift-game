@@ -1,5 +1,8 @@
-public static class PopupNames
+namespace Assets.Scripts.Popup
 {
-    public const string LevelFailedPopup = "LevelFailedPopUp";
-    public const string LevelSuccessPopup = "LevelCompletePopUp";   
+    public static class PopupNames
+    {
+        public const string LevelFailedPopup = "LevelFailedPopUp";
+        public const string LevelSuccessPopup = "LevelCompletePopUp";
+    }
 }
