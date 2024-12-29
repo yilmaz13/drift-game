@@ -1,6 +1,8 @@
 using UnityEngine;
 using Assets.Scripts.Popup;
 using Assets.Scripts.Resources;
+using Assets.Scripts.Game;
+using Assets.Scripts.Game.Views;
 
 namespace Assets.Scripts.State
 {

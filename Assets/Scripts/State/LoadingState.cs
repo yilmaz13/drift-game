@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using Assets.Scripts.Resources;
+using Assets.Scripts.Game.Views;
 
 namespace Assets.Scripts.State
 {
@@ -55,7 +56,7 @@ namespace Assets.Scripts.State
 
         private void LoadingGame()
         {
-            _loadingUIView.Close();
+            _loadingUIView.Hide();
             _stateManager.ChangeState(_transitionState);
         }
     }

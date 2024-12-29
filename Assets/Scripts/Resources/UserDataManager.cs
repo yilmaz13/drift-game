@@ -4,6 +4,7 @@ namespace Assets.Scripts.Resources
 {
     public class UserDataManager : IUserDataManager
     {
+        #region Constructor
         public UserDataManager()
         {
             if (!UserLevelExist())
@@ -11,6 +12,9 @@ namespace Assets.Scripts.Resources
                 SetCurrentLevel(0);
             }
         }
+        #endregion
+
+        #region Public Methods
         public int CurrentLevel()
         {
             return PlayerPrefs.GetInt(PlayerPrefKeys.CURRENTLEVEL);
@@ -19,10 +23,9 @@ namespace Assets.Scripts.Resources
         public void SetNextLevel()
         {
             var level = (CurrentLevel() + 1);
-
             PlayerPrefs.SetInt(PlayerPrefKeys.CURRENTLEVEL, level);
-
         }
+
         public void SetCurrentLevel(int level)
         {
             PlayerPrefs.SetInt(PlayerPrefKeys.CURRENTLEVEL, level);
@@ -32,6 +35,6 @@ namespace Assets.Scripts.Resources
         {
             return PlayerPrefs.HasKey(PlayerPrefKeys.CURRENTLEVEL);
         }
-
+        #endregion
     }
 }

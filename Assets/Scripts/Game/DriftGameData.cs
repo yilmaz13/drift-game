@@ -1,15 +1,16 @@
-using UnityEngine;
-
-public class DriftGameData
+namespace Assets.Scripts.Game
 {
-    #region Public Methos
-    public void Load()
+    public class DriftGameData
     {
+        #region Public Methos
+        public void Load()
+        {
 
-    }
-    public void Unload()
-    {
+        }
+        public void Unload()
+        {
 
+        }
+        #endregion
     }
-    #endregion
 }

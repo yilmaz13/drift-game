@@ -6,21 +6,22 @@ namespace Assets.Scripts.Popup
 {
     public class LossPopUpView : PopupView
     {
-        //  MEMBERS
-        //      For Editor
+        #region Fields
         [SerializeField] private TMP_Text _infoText;
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _menuButton;
-        //      Private
         private bool isInputEnabled;
+        #endregion
 
-        //  METHODS
-        override public void Open()
+        #region Public Methods
+        public override void Open()
         {
             base.Open();
         }
+        #endregion
 
-        override protected void EnableInput()
+        #region Protected Methods
+        protected override void EnableInput()
         {
             if (isInputEnabled == false)
             {
@@ -30,7 +31,7 @@ namespace Assets.Scripts.Popup
             }
         }
 
-        override protected void DisableInput()
+        protected override void DisableInput()
         {
             if (isInputEnabled == true)
             {
@@ -39,7 +40,9 @@ namespace Assets.Scripts.Popup
                 _restartButton.onClick.RemoveListener(OnRetryButtonClick);
             }
         }
+        #endregion
 
+        #region Private Methods
         private void OnRetryButtonClick()
         {
             GameEvents.ClickLevelRestart();
@@ -49,6 +52,6 @@ namespace Assets.Scripts.Popup
         {
             GameEvents.ClickGotoMenu();
         }
-
+        #endregion
     }
 }

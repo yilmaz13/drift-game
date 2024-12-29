@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IDriftGameListener
+namespace Assets.Scripts.Game
 {
-  void FollowCameraPlayer(Transform transform);
+    public interface IDriftGameListener
+    {
+        void FollowCameraPlayer(Transform transform);
+    }
 }

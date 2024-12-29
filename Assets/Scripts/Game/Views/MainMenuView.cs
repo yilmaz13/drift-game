@@ -2,28 +2,38 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuView : MonoBehaviour
+namespace Assets.Scripts.Game.Views
 {
-    [SerializeField] private Button _playGameButton;  
-    [SerializeField] private TextMeshProUGUI _levelText;
-    public void Show()
+    public class MainMenuView : ABaseUIView
     {
-        gameObject.SetActive(true);
-        _playGameButton.onClick.AddListener(PlayGame);
-    }
+        #region Fields
+        [SerializeField] private Button _playGameButton;
+        [SerializeField] private TextMeshProUGUI _levelText;
+        #endregion
 
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-        _playGameButton.onClick.RemoveListener(PlayGame);
-    }
-    public void PlayGame()
-    {
-        GameEvents.ClickGotoGameScene();
-    }
+        #region Public Methods
+        public override void Show()
+        {
+            base.Show();
+            _playGameButton.onClick.AddListener(PlayGame);
+        }
 
-    public void DisplayLevelText(int levelAmount)
-    {
-        _levelText.text = levelAmount.ToString();
+        public override void Hide()
+        {
+            base.Hide();
+            _playGameButton.onClick.RemoveListener(PlayGame);
+        }
+
+        public void PlayGame()
+        {
+            GameEvents.ClickGotoGameScene();
+        }
+
+        public void DisplayLevelText(int levelAmount)
+        {
+            _levelText.text = levelAmount.ToString();
+        }
+
+        #endregion
     }
 }

@@ -1,3 +1,4 @@
+using Assets.Scripts.Game.Views;
 using Assets.Scripts.Resources;
 using UnityEngine;
 
@@ -5,12 +6,15 @@ namespace Assets.Scripts.State
 {
     public class MenuGameState : AStateBase
     {
-        IStateManager _stateManager;
-        IUserDataManager _userDataManager;
-        SceneReferences _sceneReferences;
-        ResourceReferences _resourceReferences;
+        #region Fields
+        private IStateManager _stateManager;
+        private IUserDataManager _userDataManager;
+        private SceneReferences _sceneReferences;
+        private ResourceReferences _resourceReferences;
         private MainMenuView _mainMenuView;
+        #endregion
 
+        #region Constructor
         public MenuGameState(IStateManager stateManager,
                              IUserDataManager userDataManager,
                              SceneReferences sceneReferences,
@@ -21,7 +25,9 @@ namespace Assets.Scripts.State
             _sceneReferences = sceneReferences;
             _resourceReferences = resourceReferences;
         }
+        #endregion
 
+        #region Public Methods
         public override void Activate()
         {
             Debug.Log("<color=green>MenuGame State</color> OnActive");
@@ -51,10 +57,13 @@ namespace Assets.Scripts.State
         public override void UpdateState()
         {
         }
+        #endregion
 
-        public void OnClickGotoGameListener()
+        #region Private Methods
+        private void OnClickGotoGameListener()
         {
             _stateManager.ChangeTransitionState(StateNames.Loading, StateNames.Game);
         }
+        #endregion
     }
 }

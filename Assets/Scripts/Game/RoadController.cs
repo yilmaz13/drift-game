@@ -2,95 +2,111 @@ using Assets.Scripts.PoolSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadController : MonoBehaviour
+namespace Assets.Scripts.Game
 {
-    [SerializeField] private float segmentLength = 120f; 
-    [SerializeField] private GameObject roadSegmentPrefab;
-    [SerializeField] private int initialSegments = 5;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private float safeZone = 360;
-    private Queue<GameObject> roadSegments = new Queue<GameObject>();
-    private float spawnZ = 0f;
-
-    private Transform _roadParent;
-    private SpawnManager _spawnManager;
-    public  float SegmentLength => segmentLength;   
-
-    void Update()
+    public class RoadController : MonoBehaviour
     {
-        if (playerTransform == null)
+        #region Fields
+        [SerializeField] private float segmentLength = 120f;
+        [SerializeField] private GameObject roadSegmentPrefab;
+        [SerializeField] private int initialSegments = 5;
+        [SerializeField] private Transform playerTransform;
+        [SerializeField] private float safeZone = 360;
+        private Queue<GameObject> roadSegments = new Queue<GameObject>();
+        private float spawnZ = 0f;
+
+        private Transform _roadParent;
+        private SpawnManager _spawnManager;
+        public float SegmentLength => segmentLength;
+        #endregion
+
+        #region Unity Methods
+        void Update()
         {
-            return;
+            if (playerTransform == null)
+            {
+                return;
+            }
+
+            if (playerTransform.position.z - safeZone > (spawnZ - initialSegments * segmentLength))
+            {
+                SpawnSegment();
+                RemoveOldSegment();
+            }
+        }
+       
+        #endregion
+
+        #region Public Methods
+        public void Initialize()
+        {
+            _roadParent = transform;
+            _spawnManager = SpawnManager.Instance;
+
+            for (int i = 0; i < initialSegments; i++)
+            {
+                SpawnSegment();
+            }
+            SubscribeEvents();
         }
 
-        if (playerTransform.position.z - safeZone > (spawnZ - initialSegments * segmentLength))
+        public void SetPlayerTransform(Transform playerTransform)
         {
-            SpawnSegment();
-            RemoveOldSegment();
+            this.playerTransform = playerTransform;
         }
-    }
-   // public void Initialize(SpawnManager spawnManager)
-    public void Initialize()
-    {
-        _roadParent = transform;
-        _spawnManager = SpawnManager.Instance;
 
-        for (int i = 0; i < initialSegments; i++)
+        public void Unload()
         {
-            SpawnSegment();
-        }       
-        SubscribeEvents();
-    }
-    public void SetPlayerTransform(Transform playerTransform)
-    {
-        this.playerTransform = playerTransform;
-    }
-
-    public void Unload()
-    {
-        RemoveAllSegment();
-        UnsubscribeEvents();
-        spawnZ = 0;
-    }
-    private void SpawnSegment()
-    {
-        //GameObject segment = Instantiate(roadSegmentPrefab, _roadParent);
-        GameObject segment = _spawnManager.GetGameObject("Road");
-
-        segment.transform.SetParent(transform);
-        segment.transform.position = Vector3.forward * spawnZ;
-        roadSegments.Enqueue(segment);
-        spawnZ += segmentLength;
-        
-    }
-
-    private void RemoveOldSegment()
-    {
-        GameObject oldSegment = roadSegments.Dequeue();
-        oldSegment.GetComponent<PoolObject>().GoToPool();
-    }  
-    
-    private void RemoveAllSegment()
-    {
-        for (int i = roadSegments.Count; i > 0; i--)
-        {
-           roadSegments.Dequeue().GetComponent<PoolObject>().GoToPool();
+            RemoveAllSegment();
+            UnsubscribeEvents();
+            spawnZ = 0;
         }
-    }
+        #endregion
 
-    private void SubscribeEvents()
-    {
-        GameEvents.OnSpawnedPlayer += SetPlayerTransform;
-    }
+        #region Private Methods
+        private void SpawnSegment()
+        {
+            GameObject segment = _spawnManager.GetGameObject("Road");
 
-    private void UnsubscribeEvents()
-    {
-        GameEvents.OnSpawnedPlayer -= SetPlayerTransform;
-    }
+            segment.transform.SetParent(transform);
+            segment.transform.position = Vector3.forward * spawnZ;
+            roadSegments.Enqueue(segment);
+            spawnZ += segmentLength;
+        }
 
+        private void RemoveOldSegment()
+        {
+            if (roadSegments.Count == 0)
+            {
+                return;
+            }
 
-    private void OnDestroy()
-    {
-        UnsubscribeEvents();
+            GameObject oldSegment = roadSegments.Dequeue();
+            oldSegment.GetComponent<PoolObject>().GoToPool();
+        }
+
+        private void RemoveAllSegment()
+        {
+            for (int i = roadSegments.Count; i > 0; i--)
+            {
+                roadSegments.Dequeue().GetComponent<PoolObject>().GoToPool();
+            }
+        }
+
+        private void SubscribeEvents()
+        {
+            GameEvents.OnSpawnedPlayer += SetPlayerTransform;
+        }
+
+        private void UnsubscribeEvents()
+        {
+            GameEvents.OnSpawnedPlayer -= SetPlayerTransform;
+        }
+        #endregion
+
+        private void OnDestroy()
+        {
+            UnsubscribeEvents();
+        }
     }
 }

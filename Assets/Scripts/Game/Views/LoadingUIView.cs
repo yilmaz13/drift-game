@@ -3,28 +3,27 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingUIView : MonoBehaviour
+namespace Assets.Scripts.Game.Views
 {
-    //  MEMBERS
-    //      From Editor
-    [SerializeField] private TMP_Text _loadingText;
-    [SerializeField] private Slider _loadingSlider;
-    [SerializeField] private Transform _hintUIViewContanier;
-
-    public void Show()
+    public class LoadingUIView : ABaseUIView
     {
-        gameObject.SetActive(true);
-    }
+        #region Fields
+        [SerializeField] private TMP_Text _loadingText;
+        [SerializeField] private Slider _loadingSlider;
+        [SerializeField] private Transform _hintUIViewContanier;
+        #endregion
 
-    public void Close()
-    {
-        gameObject.SetActive(false);
-        _loadingSlider.value = 0;
-    }
+        #region Public Methods
+        public override void Hide()
+        {
+            base.Hide();
+            _loadingSlider.value = 0;
+        }
 
-    public void SetLoadingSlider(float time)
-    {
-        _loadingSlider.DOValue(1, time);
+        public void SetLoadingSlider(float time)
+        {
+            _loadingSlider.DOValue(1, time);
+        }
+        #endregion
     }
-
 }
