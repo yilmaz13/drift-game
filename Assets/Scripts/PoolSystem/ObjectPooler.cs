@@ -10,7 +10,6 @@ namespace Assets.Scripts.PoolSystem
         private static ObjectPooler _instance = null;
         public static ObjectPooler Instance => _instance;
 
-
         #region Variables
 
         private PoolPack _objectPool;
@@ -33,7 +32,6 @@ namespace Assets.Scripts.PoolSystem
             _SetPool();
             _InstantiatePoolObjects(allPools);
         }
-
 
         private void _SetPool()
         {

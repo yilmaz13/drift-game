@@ -4,35 +4,25 @@ using UnityEngine;
 
 namespace Assets.Scripts.Game
 {
-    public class PlayerCarController : MonoBehaviour
+    public class PlayerCarController : ABaseCarController
     {
         #region Fields
-        [SerializeField] private DetectionCollider detectionColliderLetf;
-        [SerializeField] private DetectionCollider detectionColliderRight;
-        [SerializeField] private DetectionCollider detectionColliderBody;
-        [SerializeField] private Material rutsMaterial;
-        [SerializeField] private BoxCollider boxCollider;
-
-        [SerializeField] private GameObject partsOtherWheels;
-        [SerializeField] private GameObject partsAllCar;
-        [SerializeField] private GameObject[] wheels;
-        [SerializeField] private GameObject[] rims;
-        [SerializeField] private Transform[] rutTransforms;
-
-        [SerializeField] private TrailRenderer trailRendererLeft;
-        [SerializeField] private TrailRenderer trailRendererRight;
+        [SerializeField] private DetectionCollider _detectionColliderLetf;
+        [SerializeField] private DetectionCollider _detectionColliderRight;
+        [SerializeField] private DetectionCollider _detectionColliderBody;
+       
+        [SerializeField] private Transform[] _rutTransforms;
+        [SerializeField] private TrailRenderer _trailRendererLeft;
+        [SerializeField] private TrailRenderer _trailRendererRight;
 
         //TODO go to gameresource
-        private bool isStart = false;
-        private float speed = 20f;
-        private float turnSpeed = 50f;
+        private bool isStart = false;      
+        private float _turnSpeed = 50f;
 
-        private float resetRotationTime = 1f;
-        private float resetRotationTimer = 0f;
+        private float _resetRotationTime = 1f;
+        private float _resetRotationTimer = 0f;
 
-        private float drifrMulitplier = 1.2f;
-        public float driftAngle = 10f;
-
+        private float _drifrMulitplier = 1.2f;
         private float _driftMultiplierInitial = 1.01f;
         private float _driftMultiplierDecay = 0.99f;
         private float _swipeMultiplierDecay = 0.99f;
@@ -42,28 +32,23 @@ namespace Assets.Scripts.Game
         private float _minSwipeDelta = 0.02f;
         private float swipeDelta = 0;
         private float driftDelta = 0;
-
         private float _trailEmissionThreshold = 0.05f;
 
-        Tween[] rotationWheelTweens;
+        public float driftAngle = 10f;
         #endregion
 
         #region Public Methods
-        public void Initialize()
+        public override void Initialize()
         {
-            isStart = true;
+            base.Initialize();
+            isStart = true;          
 
-            rotationWheelTweens = new Tween[4];
-            SetAllWheelsRotationTween(1f / 20f);
+            _trailRendererLeft.Clear();
+            _trailRendererLeft.AddPosition(_rutTransforms[0].position);
 
-            trailRendererLeft.Clear();
-            trailRendererLeft.AddPosition(rutTransforms[0].position);
-
-            detectionColliderLetf.OnCollisionDetected += ClosePass;
-            detectionColliderRight.OnCollisionDetected += ClosePass;
-
-            detectionColliderBody.OnCollisionDetected += CrashForce;
-
+            _detectionColliderLetf.OnCollisionDetected += ClosePass;
+            _detectionColliderRight.OnCollisionDetected += ClosePass;
+            _detectionColliderBody.OnCollisionDetected += CrashForce;
         }
 
         public void RotateCarWithAngle(float angle, float direction)
@@ -127,25 +112,25 @@ namespace Assets.Scripts.Game
         {
             if (InputManager.Instance.SwipeDeltaScreenRatio.x == 0)
             {
-                driftDelta *= drifrMulitplier;
+                driftDelta *= _drifrMulitplier;
                 driftDelta = Mathf.Clamp(driftDelta, -_maxDriftDelta, _maxDriftDelta);
 
 
-                resetRotationTimer += Time.deltaTime;
-                if (resetRotationTimer >= resetRotationTime)
+                _resetRotationTimer += Time.deltaTime;
+                if (_resetRotationTimer >= _resetRotationTime)
                 {
-                    drifrMulitplier = _driftMultiplierDecay;
-                    resetRotationTimer = 0;
+                    _drifrMulitplier = _driftMultiplierDecay;
+                    _resetRotationTimer = 0;
                 }
             }
             else
             {
-                drifrMulitplier = _driftMultiplierInitial;
+                _drifrMulitplier = _driftMultiplierInitial;
                 driftDelta = InputManager.Instance.SwipeDirection.x;
 
                 driftDelta = Mathf.Sign(InputManager.Instance.SwipeDirection.x);
 
-                resetRotationTimer = 0f;
+                _resetRotationTimer = 0f;
             }
             RotateCarWithAngle(driftDelta * driftAngle * -1, driftDelta);
         }
@@ -160,8 +145,8 @@ namespace Assets.Scripts.Game
         private void UpdateTrailEmission(float targetYRotation)
         {
             bool shouldEmit = Math.Abs(targetYRotation / 60) > _trailEmissionThreshold;
-            trailRendererLeft.emitting = shouldEmit;
-            trailRendererRight.emitting = shouldEmit;
+            _trailRendererLeft.emitting = shouldEmit;
+            _trailRendererRight.emitting = shouldEmit;
         }
         private void SteerCar()
         {
@@ -182,7 +167,7 @@ namespace Assets.Scripts.Game
                 swipeDelta = InputManager.Instance.SwipeDeltaScreenRatio.x;
             }
 
-            float steeringAmount = swipeDelta * turnSpeed * Time.deltaTime / 2;
+            float steeringAmount = swipeDelta * _turnSpeed * Time.deltaTime / 2;
             Vector3 newPosition = transform.position + new Vector3(steeringAmount, 0, 0);
 
             //TODO go to gameresource
@@ -210,10 +195,10 @@ namespace Assets.Scripts.Game
 
         private void OnDestroy()
         {
-            detectionColliderLetf.OnCollisionDetected -= ClosePass;
-            detectionColliderRight.OnCollisionDetected -= ClosePass;
+            _detectionColliderLetf.OnCollisionDetected -= ClosePass;
+            _detectionColliderRight.OnCollisionDetected -= ClosePass;
 
-            detectionColliderBody.OnCollisionDetected -= CrashForce;
+            _detectionColliderBody.OnCollisionDetected -= CrashForce;
         }
     }
 }
