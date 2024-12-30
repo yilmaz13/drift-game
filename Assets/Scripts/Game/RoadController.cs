@@ -40,6 +40,7 @@ namespace Assets.Scripts.Game
         #region Public Methods
         public void Initialize()
         {
+            spawnZ = 0;
             _roadParent = transform;
             _spawnManager = SpawnManager.Instance;
 
