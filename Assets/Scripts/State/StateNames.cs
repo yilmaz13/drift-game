@@ -5,5 +5,6 @@ namespace Assets.Scripts.State
         public const string Loading = "Loading";
         public const string MainMenu = "MainMenu";
         public const string Game = "Game";
+        public const string CarSelection = "CarSelection";
     }
 }

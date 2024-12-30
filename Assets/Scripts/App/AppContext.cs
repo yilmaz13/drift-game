@@ -1,6 +1,7 @@
 using UnityEngine;
 using Assets.Scripts.State;
 using Assets.Scripts.Resources;
+using Assets.Scripts.Game;
 
 public class AppContext : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class AppContext : MonoBehaviour
         _stateManager.AddStates(new LoadingState(_stateManager, _sceneReferences, _resourceReferences));
         _stateManager.AddStates(new GamePlayGameState(_stateManager, _userDataManager, _sceneReferences,  _resourceReferences));
         _stateManager.AddStates(new MenuGameState(_stateManager, _userDataManager,_sceneReferences, _resourceReferences));
+        _stateManager.AddStates(new CarSelectionState(_stateManager, _userDataManager,_sceneReferences, _resourceReferences));
 
         _stateManager.ChangeState(StateNames.Game);
 

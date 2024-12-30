@@ -11,6 +11,7 @@ namespace Assets.Scripts.Resources
         public GameObject RoadControllerPrefab { get { return _roadControllerPrefab; } }
         public GameObject MainMenuUIPrefab { get { return _mainMenuUIPrefab; } }
         public GameResources GameResources { get { return _gameResources; } }
+        public GameObject CarSelectionViewPrefab { get { return _carSelectionViewPrefab; } }
 
         [SerializeField] private GameObject _gameUIPrefab;
         [SerializeField] private GameObject _loadingUIView;
@@ -18,5 +19,6 @@ namespace Assets.Scripts.Resources
         [SerializeField] private GameObject _roadControllerPrefab;
         [SerializeField] private GameObject _mainMenuUIPrefab;       
         [SerializeField] private GameResources _gameResources;
+        [SerializeField] private GameObject _carSelectionViewPrefab;
     }
 }
