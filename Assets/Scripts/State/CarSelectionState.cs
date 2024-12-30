@@ -15,14 +15,14 @@ namespace Assets.Scripts.Game
         private SceneReferences _sceneReferences;
 
         public CarSelectionState(IStateManager stateManager,
+                                 IUserDataManager userDataManager,
                                  ResourceReferences resourceReferences,
-                                 SceneReferences sceneReferences,
-                                 DriftGameController driftGameController) : base(StateNames.CarSelection)
+                                 SceneReferences sceneReferences
+                                 ) : base(StateNames.CarSelection)
         {
             _stateManager = stateManager;
             _resourceReferences = resourceReferences;
-            _gameResources = _resourceReferences.GameResources;
-            _driftGameController = driftGameController;
+            _gameResources = _resourceReferences.GameResources;         
             _sceneReferences = sceneReferences;
         }
 
@@ -62,8 +62,6 @@ namespace Assets.Scripts.Game
 
         public void OnCarSelected(CarDataSO selectedCarData)
         {
-            _driftGameController.SetSelectedCar(selectedCarData);
-            _stateManager.ChangeState(StateNames.Gameplay);
         }
     }
 }

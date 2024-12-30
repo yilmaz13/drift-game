@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Resources
@@ -11,6 +12,7 @@ namespace Assets.Scripts.Resources
         [SerializeField] private GameObject _playerCar;
         [SerializeField] private GameObject _aiCar;
         [SerializeField] private GameObject _roadController;
+        [SerializeField] private List<CarDataSO> _carDataList;
         #endregion
 
         #region Properties
@@ -18,6 +20,7 @@ namespace Assets.Scripts.Resources
         public GameObject PlayerCar => _playerCar;
         public GameObject AiCar => _aiCar;
         public GameObject RoadController => _roadController;
+        public List<CarDataSO> CarDataList => _carDataList;
         #endregion
     }
 }
